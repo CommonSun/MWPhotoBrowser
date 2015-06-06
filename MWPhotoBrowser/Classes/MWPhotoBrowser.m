@@ -1135,6 +1135,20 @@
     [self jumpToPageAtIndex:_currentPageIndex+1 animated:animated];
 }
 
+- (void)enableRightBarButton:(NSString *)buttonTitle {
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:buttonTitle style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonPressed:)];
+    // Set appearance
+    if ([UIBarButtonItem respondsToSelector:@selector(appearance)]) {
+        [button setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [button setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+        [button setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+        [button setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
+        [button setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
+        [button setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
+    }
+    self.navigationItem.rightBarButtonItem = button;
+}
+
 #pragma mark - Interactions
 
 - (void)selectedButtonTapped:(id)sender {
@@ -1462,6 +1476,11 @@
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }
+}
+
+- (void)rightBarButtonPressed:(id)sender {
+    if ([_delegate respondsToSelector:@selector(photoBrowser:didPressRightBarButtonAtIndex:)])
+        [_delegate photoBrowser:self didPressRightBarButtonAtIndex:_currentPageIndex];
 }
 
 #pragma mark - Actions
