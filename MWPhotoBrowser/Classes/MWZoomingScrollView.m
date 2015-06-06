@@ -160,9 +160,12 @@
     _photoImageView.image = nil;
     if (!_loadingError) {
         _loadingError = [UIImageView new];
-        _loadingError.image = [UIImage imageNamed:@"MWPhotoBrowser.bundle/images/ImageError.png"];
+        NSBundle *mainBundle = [NSBundle bundleForClass:[MWPhotoBrowser class]];
+        NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"MWPhotoBrowser" ofType:@"bundle"]];
+        UIImage *errorImage = [UIImage imageNamed:@"images/ImageError" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
+        _loadingError.image = errorImage;
         _loadingError.userInteractionEnabled = NO;
-		_loadingError.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin |
+        _loadingError.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin |
         UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
         [_loadingError sizeToFit];
         [self addSubview:_loadingError];
